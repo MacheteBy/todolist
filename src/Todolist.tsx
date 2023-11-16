@@ -1,11 +1,11 @@
-import React, { FC } from 'react';
+import React, { ChangeEvent, KeyboardEvent, FC, useState } from 'react';
 import styled from 'styled-components';
 import { FilterValuesType } from './App';
 import Button from './Button';
 import ListItems from './ListItems';
 
 type TaskType = {
-    id: number
+    id: string
     title: string
     isDone: boolean 
 }
@@ -14,8 +14,9 @@ type TaskType = {
 type TodolistPropsType = {
     title: string
     task: Array<TaskType>
-    removeTask: (taskId: number) => void
+    removeTask: (taskId: string) => void
     changeFilter: (value: FilterValuesType) => void
+    addTask: (title: string) => void
 }
 
 
@@ -35,13 +36,30 @@ const Todolist: FC<TodolistPropsType> = (props) => {
         return <ListItems checked={elem.isDone} title ={elem.title} id={elem.id} removeTask={props.removeTask} />
     });
 
+    let[newTaskTitle, setNewTaskTitle] = useState('');
+
+    const onClickButtonHundler = () => {
+        props.addTask(newTaskTitle)
+        setNewTaskTitle('')
+    }
+
+    const onChangeHundler = (event: ChangeEvent<HTMLInputElement>) => {
+        setNewTaskTitle(event.currentTarget.value)
+    }
+
+    const onKeyPressHundler = (event: KeyboardEvent<HTMLInputElement>) => {
+        if(event.charCode === 13){
+            props.addTask(newTaskTitle)
+            setNewTaskTitle('')
+        }
+    }
 
     return (
         <TodolistStyled>
             <h3>{props.title}</h3>
             <div>
-                <input />
-                {/* <Button title="+" /> */}
+                <input value={newTaskTitle} onChange={onChangeHundler} onKeyPress={onKeyPressHundler}/>
+                <button onClick={onClickButtonHundler}>+</button>
             </div>
             <ul>
                 {listItemsMap}

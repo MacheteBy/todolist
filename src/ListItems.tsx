@@ -1,10 +1,10 @@
 import React from 'react';
 
 type ItemType = {
-    id: number
+    id: string
     title: string
     checked: boolean
-    removeTask: (taskId: number) => void
+    removeTask: (taskId: string) => void
 }
 
 const ListItems = (props: ItemType) => {

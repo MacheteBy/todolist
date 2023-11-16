@@ -7,10 +7,13 @@ type ButtonPropsType = {
 }
 
 const Button: FC<ButtonPropsType> = (props) => {
+
+    const onClickButtonHundler = () => {
+        props.changeFilter(props.title)
+    }
+
     return (
-        <button onClick={() => {
-            props.changeFilter(props.title)
-        }}>{props.title}</button>
+        <button onClick={onClickButtonHundler}>{props.title}</button>
     );
 };
 
