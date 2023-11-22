@@ -1,4 +1,4 @@
-import React, { SetStateAction, useState } from 'react';
+import React, { useState } from 'react';
 import { v1 } from 'uuid';
 import './App.css';
 import Todolist from './Todolist';
@@ -44,6 +44,15 @@ function App() {
         setTaskc(filteredTasks)
     }
 
+    function changeStatus(taskID: string, isDone: boolean) {
+        let task = tasks.find(task => task.id === taskID)
+        if(task) {
+            task.isDone = !isDone
+        }
+        setTaskc([...tasks])
+    }
+
+
     // const task_two_title = "Songs"
     //
     // const task_two = [
@@ -60,7 +69,8 @@ function App() {
                 task={tasksForTodolis}
                 removeTask={removeTask}
                 changeFilter={changeFilter}
-                addTask={addTask}/>
+                addTask={addTask}
+                changeStatus ={changeStatus}/>
             {/* <Todolist title = {task_two_title} task={task_two}/> */}
         </div>
     );

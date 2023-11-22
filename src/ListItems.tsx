@@ -5,13 +5,15 @@ type ItemType = {
     title: string
     checked: boolean
     removeTask: (taskId: string) => void
+    changeStatus: (taskID: string, isDone: boolean) => void
 }
 
 const ListItems = (props: ItemType) => {
+
     return (
         <div>
             <li key={props.id}>
-            <input type="checkbox" checked={props.checked} />
+            <input type="checkbox" checked={props.checked} onClick={() => props.changeStatus(props.id, props.checked)}/>
             <span>{props.title}</span>
             <button onClick={() => {
                 props.removeTask(props.id)

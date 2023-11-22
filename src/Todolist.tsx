@@ -17,6 +17,7 @@ type TodolistPropsType = {
     removeTask: (taskId: string) => void
     changeFilter: (value: FilterValuesType) => void
     addTask: (title: string) => void
+    changeStatus: (taskID: string, isDone: boolean) => void
 }
 
 
@@ -33,13 +34,16 @@ const Todolist: FC<TodolistPropsType> = (props) => {
     // }
     //2 отрисовываем элементы из массива
     const listItemsMap = props.task.map(function (elem) {
-        return <ListItems checked={elem.isDone} title ={elem.title} id={elem.id} removeTask={props.removeTask} />
+        return <ListItems checked={elem.isDone} title ={elem.title} id={elem.id} removeTask={props.removeTask} changeStatus={props.changeStatus}/>
     });
 
     let[newTaskTitle, setNewTaskTitle] = useState('');
 
     const onClickButtonHundler = () => {
-        props.addTask(newTaskTitle)
+        if(newTaskTitle.trim() === ''){
+            return;
+        }
+        props.addTask(newTaskTitle.trim())
         setNewTaskTitle('')
     }
 
@@ -58,7 +62,7 @@ const Todolist: FC<TodolistPropsType> = (props) => {
         <TodolistStyled>
             <h3>{props.title}</h3>
             <div>
-                <input value={newTaskTitle} onChange={onChangeHundler} onKeyPress={onKeyPressHundler}/>
+                <input maxLength={15} value={newTaskTitle} onChange={onChangeHundler} onKeyPress={onKeyPressHundler}/>
                 <button onClick={onClickButtonHundler}>+</button>
             </div>
             <ul>
