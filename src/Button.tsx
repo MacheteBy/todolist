@@ -4,6 +4,7 @@ import { FilterValuesType } from './App';
 type ButtonPropsType = {
     title: FilterValuesType
     changeFilter: (value: FilterValuesType) => void
+    filter: FilterValuesType
 }
 
 const Button: FC<ButtonPropsType> = (props) => {
@@ -13,7 +14,7 @@ const Button: FC<ButtonPropsType> = (props) => {
     }
 
     return (
-        <button onClick={onClickButtonHundler}>{props.title}</button>
+        <button className={props.filter === props.title ? "active-filter" : ""} onClick={onClickButtonHundler}>{props.title}</button>
     );
 };
 

@@ -12,7 +12,7 @@ const ListItems = (props: ItemType) => {
 
     return (
         <div>
-            <li key={props.id}>
+            <li key={props.id} className={props.checked ? "is-done" : ""}>
             <input type="checkbox" checked={props.checked} onClick={() => props.changeStatus(props.id, props.checked)}/>
             <span>{props.title}</span>
             <button onClick={() => {
