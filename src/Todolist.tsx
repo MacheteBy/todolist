@@ -12,13 +12,15 @@ type TaskType = {
 
 
 type TodolistPropsType = {
+    id: string
     title: string
     task: Array<TaskType>
-    removeTask: (taskId: string) => void
-    changeFilter: (value: FilterValuesType) => void
-    addTask: (title: string) => void
-    changeStatus: (taskID: string, isDone: boolean) => void
+    removeTask: (taskId: string, todolistsId: string) => void
+    changeFilter: (value: FilterValuesType, todolistsId: string) => void
+    addTask: (title: string, todolistsId: string) => void
+    changeStatus: (taskID: string, isDone: boolean, todolistsId: string) => void
     filter: FilterValuesType
+    removeTodolist: (todolistsId: string) => void
 }
 
 
@@ -43,7 +45,7 @@ const Todolist: FC<TodolistPropsType> = (props) => {
 
     const onClickButtonHundler = () => {
         if(newTaskTitle.trim() !== ''){
-            props.addTask(newTaskTitle.trim())
+            props.addTask(newTaskTitle.trim(), props.id)
             setNewTaskTitle('')
         }   else {
             setError('Filed is required')
@@ -58,14 +60,18 @@ const Todolist: FC<TodolistPropsType> = (props) => {
     const onKeyPressHundler = (event: KeyboardEvent<HTMLInputElement>) => {
         setError('')
         if(event.charCode === 13){
-            props.addTask(newTaskTitle)
+            props.addTask(newTaskTitle, props.id)
             setNewTaskTitle('')
         }
     }
 
+    const onRemoveTodolist = () => {
+        props.removeTodolist(props.id)
+    }
+
     return (
         <TodolistStyled>
-            <h3>{props.title}</h3>
+            <h3>{props.title}</h3><button onClick={onRemoveTodolist}>x</button>
             <div>
                 <input className={error ? "error" : ""} maxLength={15} value={newTaskTitle} onChange={onChangeHundler} onKeyPress={onKeyPressHundler}/>
                 <button onClick={onClickButtonHundler}>+</button>
@@ -75,9 +81,9 @@ const Todolist: FC<TodolistPropsType> = (props) => {
                 {listItemsMap}
             </ul>
             <div>
-                <Button filter={props.filter} title='all' changeFilter={props.changeFilter}/>
-                <Button filter={props.filter} title='active' changeFilter={props.changeFilter}/>
-                <Button filter={props.filter} title='completed' changeFilter={props.changeFilter}/>
+                <Button filter={props.filter} title='all' changeFilter={props.changeFilter} id={props.id}/>
+                <Button filter={props.filter} title='active' changeFilter={props.changeFilter} id={props.id}/>
+                <Button filter={props.filter} title='completed' changeFilter={props.changeFilter} id={props.id}/>
             </div>
         </TodolistStyled>
     )
